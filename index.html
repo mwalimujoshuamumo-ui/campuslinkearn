@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusLink | Refer • Earn • Grow</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            green: '#10B981',
+                            greenDark: '#059669',
+                            greenLight: '#D1FAE5',
+                            navy: '#0F172A',
+                            navyLight: '#1E293B',
+                            accent: '#2563EB',
+                            purple: '#7C3AED'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-900 text-slate-100 font-['Plus_Jakarta_Sans',sans-serif] min-h-screen pb-20 md:pb-0">
+
+    <!-- TOP HEADER -->
+    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" onclick="switchView('home')" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-900 font-extrabold text-xl shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition">
+                    <i class="fa-solid me-0 fa-link"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold text-white tracking-tight">Campus<span class="text-emerald-400">Link</span></span>
+                    <span class="block text-[10px] text-emerald-400/80 uppercase tracking-widest font-semibold">Refer • Earn • Grow</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#home" onclick="switchView('home')" class="hover:text-emerald-400 transition">Home</a>
+                <a href="#packages" onclick="switchView('home'); scrollToSection('packages-section')" class="hover:text-emerald-400 transition">Packages</a>
+                <a href="#how-it-works" onclick="switchView('home'); scrollToSection('how-section')" class="hover:text-emerald-400 transition">How It Works</a>
+                <a href="#dashboard" onclick="switchView('dashboard')" class="hover:text-emerald-400 transition">Dashboard</a>
+                <a href="#tasks" onclick="switchView('tasks')" class="hover:text-emerald-400 transition flex items-center gap-1">
+                    Tasks & Status Earn <span class="bg-emerald-500/20 text-emerald-400 text-[10px] px-1.5 py-0.5 rounded-full font-bold border border-emerald-500/30">NEW</span>
+                </a>
+                <a href="#leaderboard" onclick="switchView('leaderboard')" class="hover:text-emerald-400 transition">Leaderboard</a>
+            </nav>
+
+            <!-- Auth CTA Buttons -->
+            <div class="hidden md:flex items-center gap-3">
+                <button onclick="openModal('loginModal')" class="px-4 py-2 text-sm font-semibold text-slate-300 hover:text-white transition">Login</button>
+                <button onclick="openModal('registerModal')" class="px-5 py-2 text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-xl transition shadow-lg shadow-emerald-500/25">Register</button>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-lg bg-slate-800 text-slate-300 hover:text-white">
+                <i class="fa-solid fa-bars text-lg"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer Navigation -->
+        <div id="mobileMenu" class="hidden md:hidden bg-slate-800 border-b border-slate-700 px-4 py-4 space-y-3">
+            <a href="#home" onclick="switchView('home'); toggleMobileMenu()" class="block text-slate-200 hover:text-emerald-400 py-1 font-medium">Home</a>
+            <a href="#packages" onclick="switchView('home'); scrollToSection('packages-section'); toggleMobileMenu()" class="block text-slate-200 hover:text-emerald-400 py-1 font-medium">Packages</a>
+            <a href="#how-it-works" onclick="switchView('home'); scrollToSection('how-section'); toggleMobileMenu()" class="block text-slate-200 hover:text-emerald-400 py-1 font-medium">How It Works</a>
+            <a href="#dashboard" onclick="switchView('dashboard'); toggleMobileMenu()" class="block text-slate-200 hover:text-emerald-400 py-1 font-medium">Dashboard</a>
+            <a href="#tasks" onclick="switchView('tasks'); toggleMobileMenu()" class="block text-slate-200 hover:text-emerald-400 py-1 font-medium">Earn by Status Screenshots</a>
+            <a href="#leaderboard" onclick="switchView('leaderboard'); toggleMobileMenu()" class="block text-slate-200 hover:text-emerald-400 py-1 font-medium">Leaderboard</a>
+            <div class="pt-3 border-t border-slate-700 flex gap-3">
+                <button onclick="openModal('loginModal'); toggleMobileMenu()" class="w-1/2 py-2 text-center text-sm font-semibold border border-slate-600 text-slate-200 rounded-xl">Login</button>
+                <button onclick="openModal('registerModal'); toggleMobileMenu()" class="w-1/2 py-2 text-center text-sm font-bold bg-emerald-500 text-slate-950 rounded-xl">Register</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINERS -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+        <!-- =================================================================== -->
+        <!-- VIEW 1: LANDING PAGE (HOME)                                         -->
+        <!-- =================================================================== -->
+        <div id="view-home" class="space-y-16">
+
+            <!-- HERO SECTION -->
+            <section class="relative rounded-3xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border border-slate-800 overflow-hidden p-6 sm:p-10 md:p-14">
+                <div class="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                        <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-wider">
+                            <i class="fa-solid fa-graduation-cap"></i> The Ultimate Student Referral Program
+                        </span>
+
+                        <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+                            Campus<span class="text-emerald-400">Link</span><br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-indigo-400">Refer Comrades. Earn Together.</span>
+                        </h1>
+
+                        <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                            Join CampusLink, choose an affordable package, share your unique referral link or post promo status updates, and earn up to 3 levels of commission instantly via M-Pesa!
+                        </p>
+
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                            <button onclick="openModal('registerModal')" class="w-full sm:w-auto px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-base font-extrabold rounded-2xl transition shadow-xl shadow-emerald-500/20 flex items-center justify-center gap-2 group">
+                                Get Started <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                            </button>
+                            <button onclick="scrollToSection('how-section')" class="w-full sm:w-auto px-6 py-4 bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700 text-base font-bold rounded-2xl transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-circle-play text-emerald-400"></i> How It Works
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- HERO IMAGE & BADGE -->
+                    <div class="lg:col-span-5 relative">
+                        <div class="relative mx-auto max-w-md rounded-3xl overflow-hidden shadow-2xl border border-slate-700/60 bg-slate-800">
+                            <!-- Hero Banner Image -->
+                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Students Earn Together" class="w-full h-80 object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+
+                            <!-- Floating Trust Badge -->
+                            <div class="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-slate-900/90 backdrop-blur-md border border-emerald-500/30 shadow-lg flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl font-bold flex-shrink-0">
+                                    <i class="fa-solid fa-[#10B981] fa-shield-halved"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-sm">Real Students • Real Earnings</p>
+                                    <p class="text-xs text-emerald-400 font-semibold">Instant M-Pesa Withdrawals</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HIGHLIGHT STATS GRID -->
+            <section class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-4 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto mb-2 text-lg">
+                        <i class="fa-solid fa-box-open"></i>
+                    </div>
+                    <p class="text-white font-bold text-sm">4 Packages</p>
+                    <p class="text-xs text-slate-400">KSh 100 - KSh 1,500</p>
+                </div>
+                <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-4 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mx-auto mb-2 text-lg">
+                        <i class="fa-solid fa-sitemap"></i>
+                    </div>
+                    <p class="text-white font-bold text-sm">3 Referral Levels</p>
+                    <p class="text-xs text-slate-400">Earn up to L1, L2, L3</p>
+                </div>
+                <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-4 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mx-auto mb-2 text-lg">
+                        <i class="fa-solid fa-percent"></i>
+                    </div>
+                    <p class="text-white font-bold text-sm">60% to Network</p>
+                    <p class="text-xs text-slate-400">High payout share</p>
+                </div>
+                <div class="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-4 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center mx-auto mb-2 text-lg">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+                    <p class="text-white font-bold text-sm">Secure Payments</p>
+                    <p class="text-xs text-slate-400">M-Pesa Express</p>
+                </div>
+                <div class="col-span-2 md:col-span-1 bg-slate-800/60 border border-slate-700/50 rounded-2xl p-4 text-center">
+                    <div class="w-10 h-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center mx-auto mb-2 text-lg">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <p class="text-white font-bold text-sm">Build Your Team</p>
+                    <p class="text-xs text-slate-400">Leaderboard rewards</p>
+                </div>
+            </section>
+
+            <!-- PACKAGES SECTION -->
+            <section id="packages-section" class="space-y-8 pt-4">
+                <div class="text-center max-w-2xl mx-auto space-y-3">
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">CHOOSE YOUR PACKAGE</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Activate Your Account with as low as <span class="text-emerald-400">KSh 100</span></h2>
+                    <p class="text-slate-400 text-sm">Select a package, make payment via M-Pesa, and start earning from your referrals immediately.</p>
+                </div>
+
+                <!-- Package Cards Grid (Desktop 4 columns, Mobile Horizontal Carousel) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                    <!-- Starter Package -->
+                    <div class="bg-slate-800/90 border border-slate-700 hover:border-emerald-500/50 rounded-3xl p-6 space-y-6 flex flex-col justify-between transition hover:-translate-y-1 shadow-xl">
+                        <div class="space-y-4">
+                            <span class="inline-block px-3 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-bold rounded-full border border-emerald-500/20">Starter</span>
+                            <div>
+                                <span class="text-3xl font-extrabold text-white">KSh 100</span>
+                                <span class="text-slate-400 text-xs"> / one-time</span>
+                            </div>
+                            <ul class="space-y-3 text-sm text-slate-300 pt-2">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Access to referral program</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Up to 3 levels commission</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Basic WhatsApp task access</li>
+                            </ul>
+                        </div>
+                        <button onclick="selectPackage('Starter', 100)" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition shadow-lg shadow-emerald-500/20">
+                            Choose Package
+                        </button>
+                    </div>
+
+                    <!-- Bronze Package -->
+                    <div class="bg-slate-800/90 border border-slate-700 hover:border-amber-500/50 rounded-3xl p-6 space-y-6 flex flex-col justify-between transition hover:-translate-y-1 shadow-xl">
+                        <div class="space-y-4">
+                            <span class="inline-block px-3 py-1 bg-amber-500/10 text-amber-400 text-xs font-bold rounded-full border border-amber-500/20">Bronze</span>
+                            <div>
+                                <span class="text-3xl font-extrabold text-white">KSh 300</span>
+                                <span class="text-slate-400 text-xs"> / one-time</span>
+                            </div>
+                            <ul class="space-y-3 text-sm text-slate-300 pt-2">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Higher commission rates</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Up to 3 levels commission</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Status view task rewards</li>
+                            </ul>
+                        </div>
+                        <button onclick="selectPackage('Bronze', 300)" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition shadow-lg shadow-amber-500/20">
+                            Choose Package
+                        </button>
+                    </div>
+
+                    <!-- Silver Package (Popular) -->
+                    <div class="bg-gradient-to-b from-slate-800 to-slate-850 border-2 border-emerald-500 rounded-3xl p-6 space-y-6 flex flex-col justify-between relative transition hover:-translate-y-1 shadow-2xl shadow-emerald-500/10">
+                        <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 bg-emerald-500 text-slate-950 font-black text-xs uppercase tracking-wider rounded-full shadow-lg">
+                            POPULAR CHOICE
+                        </div>
+                        <div class="space-y-4 pt-2">
+                            <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-300 text-xs font-bold rounded-full border border-emerald-500/30">Silver</span>
+                            <div>
+                                <span class="text-3xl font-extrabold text-white">KSh 750</span>
+                                <span class="text-slate-400 text-xs"> / one-time</span>
+                            </div>
+                            <ul class="space-y-3 text-sm text-slate-200 pt-2">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> More earnings potential</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Up to 3 levels commission</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Priority status screenshot review</li>
+                            </ul>
+                        </div>
+                        <button onclick="selectPackage('Silver', 750)" class="w-full py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-xl transition shadow-lg shadow-emerald-500/25">
+                            Choose Package
+                        </button>
+                    </div>
+
+                    <!-- Premium Package -->
+                    <div class="bg-slate-800/90 border border-purple-500/50 hover:border-purple-400 rounded-3xl p-6 space-y-6 flex flex-col justify-between transition hover:-translate-y-1 shadow-xl">
+                        <div class="space-y-4">
+                            <span class="inline-block px-3 py-1 bg-purple-500/10 text-purple-400 text-xs font-bold rounded-full border border-purple-500/20">Premium</span>
+                            <div>
+                                <span class="text-3xl font-extrabold text-white">KSh 1,500</span>
+                                <span class="text-slate-400 text-xs"> / one-time</span>
+                            </div>
+                            <ul class="space-y-3 text-sm text-slate-300 pt-2">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-400"></i> Maximum earnings potential</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-400"></i> VIP level commissions</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-purple-400"></i> Dedicated support & instant payouts</li>
+                            </ul>
+                        </div>
+                        <button onclick="selectPackage('Premium', 1500)" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition shadow-lg shadow-purple-600/20">
+                            Choose Package
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HOW IT WORKS & COMMISSION STRUCTURE -->
+            <section id="how-section" class="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-8">
+
+                <!-- Timeline Steps -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div>
+                        <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">HOW IT WORKS</span>
+                        <h2 class="text-3xl font-extrabold text-white mt-1">It's Easy to Start</h2>
+                    </div>
+
+                    <div class="space-y-4 relative before:absolute before:left-6 before:top-4 before:bottom-4 before:w-0.5 before:bg-slate-700">
+                        <!-- Step 1 -->
+                        <div class="flex items-start gap-4 relative z-10">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-500 text-slate-950 font-black flex items-center justify-center text-lg flex-shrink-0 shadow-lg shadow-emerald-500/20">1</div>
+                            <div class="bg-slate-800/60 border border-slate-700/60 p-4 rounded-2xl flex-1">
+                                <h3 class="text-white font-bold text-base">Register Account</h3>
+                                <p class="text-slate-400 text-xs mt-1">Create your account with your phone number, email, and university campus.</p>
+                            </div>
+                        </div>
+                        <!-- Step 2 -->
+                        <div class="flex items-start gap-4 relative z-10">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-800 text-emerald-400 border border-emerald-500/30 font-black flex items-center justify-center text-lg flex-shrink-0">2</div>
+                            <div class="bg-slate-800/60 border border-slate-700/60 p-4 rounded-2xl flex-1">
+                                <h3 class="text-white font-bold text-base">Choose Package</h3>
+                                <p class="text-slate-400 text-xs mt-1">Pick one of the 4 affordable packages and activate instantly via M-Pesa.</p>
+                            </div>
+                        </div>
+                        <!-- Step 3 -->
+                        <div class="flex items-start gap-4 relative z-10">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-800 text-emerald-400 border border-emerald-500/30 font-black flex items-center justify-center text-lg flex-shrink-0">3</div>
+                            <div class="bg-slate-800/60 border border-slate-700/60 p-4 rounded-2xl flex-1">
+                                <h3 class="text-white font-bold text-base">Get Your Unique Link</h3>
+                                <p class="text-slate-400 text-xs mt-1">Receive your referral code and shareable URL instantly on your dashboard.</p>
+                            </div>
+                        </div>
+                        <!-- Step 4 -->
+                        <div class="flex items-start gap-4 relative z-10">
+                            <div class="w-12 h-12 rounded-2xl bg-slate-800 text-emerald-400 border border-emerald-500/30 font-black flex items-center justify-center text-lg flex-shrink-0">4</div>
+                            <div class="bg-slate-800/60 border border-slate-700/60 p-4 rounded-2xl flex-1">
+                                <h3 class="text-white font-bold text-base">Refer Comrades & Post Statuses</h3>
+                                <p class="text-slate-400 text-xs mt-1">Share with friends or post promo flyers on your WhatsApp/Instagram status.</p>
+                            </div>
+                        </div>
+                        <!-- Step 5 -->
+                        <div class="flex items-start gap-4 relative z-10">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-black flex items-center justify-center text-lg flex-shrink-0">5</div>
+                            <div class="bg-slate-800/60 border border-slate-700/60 p-4 rounded-2xl flex-1">
+                                <h3 class="text-white font-bold text-base">Earn & Withdraw</h3>
+                                <p class="text-slate-400 text-xs mt-1">Get commissions up to 3 levels + status view rewards directly to your M-Pesa!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Commission Structure Box -->
+                <div class="lg:col-span-5">
+                    <div class="bg-gradient-to-b from-slate-800 to-slate-900 border border-slate-700 p-6 rounded-3xl space-y-6 shadow-xl sticky top-24">
+                        <div class="border-b border-slate-700 pb-4">
+                            <h3 class="text-xl font-extrabold text-white">Commission Structure</h3>
+                            <p class="text-xs text-emerald-400 font-semibold mt-1">60% to Your Network • 40% to Company</p>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 border border-slate-700">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 font-extrabold text-xs flex items-center justify-center">L1</span>
+                                    <div>
+                                        <p class="text-white font-bold text-sm">Level 1 (Direct)</p>
+                                        <p class="text-[11px] text-slate-400">Direct referrals</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-emerald-400 font-extrabold text-base">30%</span>
+                                    <span class="block text-[11px] text-slate-400">(KSh 300 on Premium)</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 border border-slate-700">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-8 h-8 rounded-lg bg-indigo-500/20 text-indigo-400 font-extrabold text-xs flex items-center justify-center">L2</span>
+                                    <div>
+                                        <p class="text-white font-bold text-sm">Level 2</p>
+                                        <p class="text-[11px] text-slate-400">Referrals by L1</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-indigo-400 font-extrabold text-base">20%</span>
+                                    <span class="block text-[11px] text-slate-400">(KSh 200 on Premium)</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 border border-slate-700">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 font-extrabold text-xs flex items-center justify-center">L3</span>
+                                    <div>
+                                        <p class="text-white font-bold text-sm">Level 3</p>
+                                        <p class="text-[11px] text-slate-400">Referrals by L2</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-purple-400 font-extrabold text-base">10%</span>
+                                    <span class="block text-[11px] text-slate-400">(KSh 100 on Premium)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-700 flex justify-between text-xs font-bold">
+                            <span class="text-slate-400">Total Network Payout:</span>
+                            <span class="text-emerald-400">60% (KSh 600)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+
+        <!-- =================================================================== -->
+        <!-- VIEW 2: AGENT DASHBOARD                                              -->
+        <!-- =================================================================== -->
+        <div id="view-dashboard" class="hidden space-y-8">
+
+            <!-- Dashboard User Header -->
+            <div class="bg-gradient-to-r from-slate-800 via-slate-850 to-slate-800 border border-slate-700 p-6 rounded-3xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-slate-950 font-black text-2xl flex items-center justify-center shadow-lg">
+                        BO
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="text-2xl font-black text-white">Brian Oteno</h2>
+                            <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-bold text-xs uppercase">ACTIVE</span>
+                        </div>
+                        <p class="text-slate-400 text-xs mt-0.5">Premium Package • University of Nairobi</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+                    <button onclick="openModal('withdrawModal')" class="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-sm rounded-xl transition shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+                        <i class="fa-solid fa-money-bill-transfer"></i> Withdraw
+                    </button>
+                    <button onclick="switchView('tasks')" class="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-bold text-sm rounded-xl transition flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-emerald-400"></i> Earn Tasks
+                    </button>
+                </div>
+            </div>
+
+            <!-- TOP STATS CARDS GRID -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center text-slate-400 text-xs font-bold">
+                        <span>TOTAL EARNINGS</span>
+                        <i class="fa-solid fa-wallet text-emerald-400"></i>
+                    </div>
+                    <p class="text-3xl font-extrabold text-white" id="dashTotalEarnings">KSh 8,450</p>
+                    <p class="text-[11px] text-emerald-400 font-semibold"><i class="fa-solid fa-arrow-up"></i> +18% from last week</p>
+                </div>
+
+                <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center text-slate-400 text-xs font-bold">
+                        <span>AVAILABLE BALANCE</span>
+                        <i class="fa-solid fa-vault text-teal-400"></i>
+                    </div>
+                    <p class="text-3xl font-extrabold text-emerald-400" id="dashAvailableBalance">KSh 6,200</p>
+                    <p class="text-[11px] text-slate-400">Ready for M-Pesa payout</p>
+                </div>
+
+                <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center text-slate-400 text-xs font-bold">
+                        <span>PENDING COMMISSION</span>
+                        <i class="fa-solid fa-clock text-amber-400"></i>
+                    </div>
+                    <p class="text-3xl font-extrabold text-amber-400">KSh 2,250</p>
+                    <p class="text-[11px] text-slate-400">Status task reviews</p>
+                </div>
+
+                <div class="bg-slate-800/80 border border-slate-700 p-5 rounded-2xl space-y-2">
+                    <div class="flex justify-between items-center text-slate-400 text-xs font-bold">
+                        <span>TOTAL NETWORK</span>
+                        <i class="fa-solid fa-users text-indigo-400"></i>
+                    </div>
+                    <p class="text-3xl font-extrabold text-white">188 <span class="text-xs text-slate-400 font-normal">members</span></p>
+                    <p class="text-[11px] text-indigo-400 font-semibold">Across L1, L2, L3</p>
+                </div>
+            </div>
+
+            <!-- QUICK ACTIONS & REFERRAL LINK CARD -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+                <!-- Referral Link Box -->
+                <div class="lg:col-span-7 bg-slate-800/80 border border-slate-700 p-6 rounded-3xl space-y-5">
+                    <div>
+                        <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-link text-emerald-400"></i> My Referral Link & Code
+                        </h3>
+                        <p class="text-slate-400 text-xs mt-1">Share this link to register comrades under your network.</p>
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-slate-300">REFERRAL CODE</label>
+                        <div class="flex items-center gap-2">
+                            <input type="text" readonly value="COM12345" id="refCodeInput" class="bg-slate-900 border border-slate-700 text-emerald-400 font-black text-lg px-4 py-2.5 rounded-xl flex-1 tracking-wider">
+                            <button onclick="copyToClipboard('refCodeInput')" class="px-4 py-2.5 bg-slate-700 hover:bg-slate-600 text-white font-bold text-sm rounded-xl transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-slate-300">REFERRAL LINK</label>
+                        <div class="flex items-center gap-2">
+                            <input type="text" readonly value="https://campuslink.co/register?ref=COM12345" id="refUrlInput" class="bg-slate-900 border border-slate-700 text-slate-200 text-xs px-4 py-2.5 rounded-xl flex-1">
+                            <button onclick="copyToClipboard('refUrlInput')" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm rounded-xl transition flex items-center gap-1.5">
+                                <i class="fa-solid fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                        <button onclick="shareOnWhatsApp()" class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> Share on WhatsApp
+                        </button>
+                        <button onclick="openModal('qrModal')" class="py-3 px-5 bg-slate-700 hover:bg-slate-600 text-white font-bold text-sm rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-qrcode"></i> View QR Code
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Referral Network Breakdown -->
+                <div class="lg:col-span-5 bg-slate-800/80 border border-slate-700 p-6 rounded-3xl space-y-5">
+                    <h3 class="text-lg font-extrabold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-network-wired text-indigo-400"></i> Network Statistics
+                    </h3>
+
+                    <div class="grid grid-cols-3 gap-3 text-center">
+                        <div class="p-3 bg-slate-900/60 border border-slate-700 rounded-xl">
+                            <span class="text-xs text-slate-400 font-bold block">LEVEL 1</span>
+                            <span class="text-xl font-black text-emerald-400">15</span>
+                            <span class="text-[10px] text-slate-500 block">Members</span>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 border border-slate-700 rounded-xl">
+                            <span class="text-xs text-slate-400 font-bold block">LEVEL 2</span>
+                            <span class="text-xl font-black text-indigo-400">47</span>
+                            <span class="text-[10px] text-slate-500 block">Members</span>
+                        </div>
+                        <div class="p-3 bg-slate-900/60 border border-slate-700 rounded-xl">
+                            <span class="text-xs text-slate-400 font-bold block">LEVEL 3</span>
+                            <span class="text-xl font-black text-purple-400">126</span>
+                            <span class="text-[10px] text-slate-500 block">Members</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pt-2">
+                        <p class="text-xs font-bold text-slate-300">EARNINGS BREAKDOWN</p>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-slate-300">Level 1 Commissions</span>
+                                <span class="font-bold text-emerald-400">KSh 4,500 (53%)</span>
+                            </div>
+                            <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden">
+                                <div class="bg-emerald-500 h-2 rounded-full" style="width: 53%"></div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-slate-300">Level 2 Commissions</span>
+                                <span class="font-bold text-indigo-400">KSh 2,800 (33%)</span>
+                            </div>
+                            <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden">
+                                <div class="bg-indigo-500 h-2 rounded-full" style="width: 33%"></div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-slate-300">Level 3 Commissions</span>
+                                <span class="font-bold text-purple-400">KSh 1,150 (14%)</span>
+                            </div>
+                            <div class="w-full bg-slate-900 rounded-full h-2 overflow-hidden">
+                                <div class="bg-purple-500 h-2 rounded-full" style="width: 14%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================================== -->
+        <!-- VIEW 3: STATUS SCREENSHOT TASKS & BOUNTIES                          -->
+        <!-- =================================================================== -->
+        <div id="view-tasks" class="hidden space-y-8">
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">MICRO-TASKS</span>
+                    <h2 class="text-3xl font-extrabold text-white mt-1">Post on Status & Earn Per View</h2>
+                    <p class="text-slate-400 text-sm">Download active promotional flyers, post on WhatsApp / Instagram status for 24h, and upload screenshot proof!</p>
+                </div>
+
+                <button onclick="openModal('submitProofModal')" class="px-6 py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-2xl transition shadow-xl shadow-emerald-500/20 flex items-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-up text-lg"></i> Submit Screenshot Proof
+                </button>
+            </div>
+
+            <!-- Active Promotional Tasks List -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- Task 1 -->
+                <div class="bg-slate-800/80 border border-slate-700 rounded-3xl p-6 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold"><i class="fa-brands fa-whatsapp"></i> WhatsApp Status</span>
+                            <span class="text-xs font-extrabold text-emerald-400">KSh 5 / view</span>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-white">CampusLink Promo Flyer #1</h3>
+                        <p class="text-slate-400 text-xs">Post this flyer promoting the KSh 100 Starter package to your campus WhatsApp status.</p>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-700 space-y-3">
+                        <button onclick="downloadFlyer('Flyer_1')" class="w-full py-2.5 border border-slate-600 hover:border-emerald-500 text-slate-200 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download text-emerald-400"></i> Download Flyer Image
+                        </button>
+                        <button onclick="openModal('submitProofModal')" class="w-full py-2.5 bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 font-bold text-xs rounded-xl border border-emerald-500/40 transition">
+                            Submit Proof Screenshot
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Task 2 -->
+                <div class="bg-slate-800/80 border border-slate-700 rounded-3xl p-6 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-400 text-xs font-bold"><i class="fa-brands fa-instagram"></i> Instagram Story</span>
+                            <span class="text-xs font-extrabold text-indigo-400">KSh 300 Fixed</span>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-white">Top Comrades Leaderboard Post</h3>
+                        <p class="text-slate-400 text-xs">Post the leaderboard graphic on your Instagram story with your referral link sticker.</p>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-700 space-y-3">
+                        <button onclick="downloadFlyer('Flyer_2')" class="w-full py-2.5 border border-slate-600 hover:border-indigo-500 text-slate-200 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download text-indigo-400"></i> Download Graphic
+                        </button>
+                        <button onclick="openModal('submitProofModal')" class="w-full py-2.5 bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 font-bold text-xs rounded-xl border border-indigo-500/40 transition">
+                            Submit Proof Screenshot
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Task 3 -->
+                <div class="bg-slate-800/80 border border-slate-700 rounded-3xl p-6 space-y-4 flex flex-col justify-between">
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-400 text-xs font-bold"><i class="fa-solid fa-video"></i> TikTok Video Task</span>
+                            <span class="text-xs font-extrabold text-purple-400">KSh 1,000 Bounty</span>
+                        </div>
+                        <h3 class="text-lg font-extrabold text-white">Campus Earnings Review Video</h3>
+                        <p class="text-slate-400 text-xs">Record a short 15s TikTok video showcasing your CampusLink M-Pesa withdrawal screenshot.</p>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-700 space-y-3">
+                        <button onclick="downloadFlyer('Guide')" class="w-full py-2.5 border border-slate-600 hover:border-purple-500 text-slate-200 font-bold text-xs rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-file-pdf text-purple-400"></i> View Video Script
+                        </button>
+                        <button onclick="openModal('submitProofModal')" class="w-full py-2.5 bg-purple-500/20 hover:bg-purple-500/30 text-purple-300 font-bold text-xs rounded-xl border border-purple-500/40 transition">
+                            Submit Proof Link/Screenshot
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Task Submissions History Table -->
+            <div class="bg-slate-800/80 border border-slate-700 rounded-3xl p-6 space-y-4">
+                <h3 class="text-xl font-extrabold text-white">My Submitted Proofs</h3>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="text-xs text-slate-400 uppercase bg-slate-900/60 rounded-xl">
+                            <tr>
+                                <th class="p-3 rounded-l-xl">Task Name</th>
+                                <th class="p-3">Reported Views</th>
+                                <th class="p-3">Earned Amount</th>
+                                <th class="p-3">Status</th>
+                                <th class="p-3 rounded-r-xl">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-700/60 text-slate-200" id="submissionsTableBody">
+                            <tr>
+                                <td class="p-3 font-bold">CampusLink Promo Flyer #1</td>
+                                <td class="p-3">240 views</td>
+                                <td class="p-3 font-bold text-emerald-400">KSh 1,200</td>
+                                <td class="p-3"><span class="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold">APPROVED ✅</span></td>
+                                <td class="p-3 text-xs text-slate-400">24 Sep 2026</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold">Top Comrades Story Post</td>
+                                <td class="p-3">150 views</td>
+                                <td class="p-3 font-bold text-amber-400">KSh 300</td>
+                                <td class="p-3"><span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold">UNDER REVIEW ⏳</span></td>
+                                <td class="p-3 text-xs text-slate-400">24 Sep 2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- =================================================================== -->
+        <!-- VIEW 4: LEADERBOARD                                                 -->
+        <!-- =================================================================== -->
+        <div id="view-leaderboard" class="hidden space-y-8">
+
+            <div class="text-center max-w-xl mx-auto space-y-3">
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20">HALL OF FAME</span>
+                <h2 class="text-3xl font-extrabold text-white">Leaderboard Rankings</h2>
+                <p class="text-slate-400 text-sm">Top performing student comrades and campuses earning the highest network commissions.</p>
+            </div>
+
+            <!-- Leaderboard Rankings Table -->
+            <div class="max-w-3xl mx-auto bg-slate-800/80 border border-slate-700 rounded-3xl p-6 space-y-6">
+
+                <div class="flex border-b border-slate-700 pb-4">
+                    <button class="flex-1 py-2 font-bold text-sm text-emerald-400 border-b-2 border-emerald-400">Top Comrades</button>
+                    <button class="flex-1 py-2 font-bold text-sm text-slate-400 hover:text-slate-200">Top Campuses</button>
+                </div>
+
+                <div class="space-y-3">
+
+                    <!-- #1 Gold -->
+                    <div class="flex items-center justify-between p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-slate-800 to-slate-800 border border-amber-500/30">
+                        <div class="flex items-center gap-4">
+                            <span class="text-2xl">🥇</span>
+                            <div>
+                                <p class="text-white font-extrabold text-base">Brian Oteno</p>
+                                <p class="text-xs text-slate-400">University of Nairobi • 128 Referrals</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-black text-amber-400">KSh 12,450</span>
+                    </div>
+
+                    <!-- #2 Silver -->
+                    <div class="flex items-center justify-between p-4 rounded-2xl bg-slate-800 border border-slate-700">
+                        <div class="flex items-center gap-4">
+                            <span class="text-2xl">🥈</span>
+                            <div>
+                                <p class="text-white font-extrabold text-base">Kevin Wanjala</p>
+                                <p class="text-xs text-slate-400">Kenyatta University • 87 Referrals</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-black text-slate-200">KSh 8,200</span>
+                    </div>
+
+                    <!-- #3 Bronze -->
+                    <div class="flex items-center justify-between p-4 rounded-2xl bg-slate-800 border border-slate-700">
+                        <div class="flex items-center gap-4">
+                            <span class="text-2xl">🥉</span>
+                            <div>
+                                <p class="text-white font-extrabold text-base">Mary Achieng</p>
+                                <p class="text-xs text-slate-400">JKUAT • 61 Referrals</p>
+                            </div>
+                        </div>
+                        <span class="text-lg font-black text-amber-600">KSh 6,100</span>
+                    </div>
+
+                    <!-- #4 -->
+                    <div class="flex items-center justify-between p-4 rounded-2xl bg-slate-800/60 border border-slate-700/60">
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm font-bold text-slate-400 w-8 text-center">#4</span>
+                            <div>
+                                <p class="text-white font-bold text-sm">David Mwangi</p>
+                                <p class="text-xs text-slate-400">Moi University • 54 Referrals</p>
+                            </div>
+                        </div>
+                        <span class="text-base font-bold text-emerald-400">KSh 4,800</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- MODAL 1: REGISTER MODAL -->
+    <div id="registerModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 relative shadow-2xl">
+            <button onclick="closeModal('registerModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="space-y-1">
+                <h3 class="text-2xl font-extrabold text-white">Create Account</h3>
+                <p class="text-xs text-slate-400">Join CampusLink and start earning today.</p>
+            </div>
+            <form onsubmit="handleRegister(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">FULL NAME</label>
+                    <input type="text" required placeholder="e.g. Brian Oteno" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">M-PESA PHONE NUMBER</label>
+                    <input type="tel" required placeholder="e.g. 0712345678" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">UNIVERSITY / CAMPUS</label>
+                    <select required class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                        <option value="">Select Campus</option>
+                        <option value="UoN">University of Nairobi (UoN)</option>
+                        <option value="KU">Kenyatta University (KU)</option>
+                        <option value="JKUAT">JKUAT</option>
+                        <option value="Moi">Moi University</option>
+                        <option value="Egerton">Egerton University</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">REFERRAL CODE (OPTIONAL)</label>
+                    <input type="text" placeholder="e.g. COM12345" class="w-full bg-slate-800 border border-slate-700 text-emerald-400 font-bold rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl transition shadow-lg shadow-emerald-500/20">
+                    Create Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: LOGIN MODAL -->
+    <div id="loginModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 relative shadow-2xl">
+            <button onclick="closeModal('loginModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="space-y-1">
+                <h3 class="text-2xl font-extrabold text-white">Welcome Back</h3>
+                <p class="text-xs text-slate-400">Enter your M-Pesa phone number to log in.</p>
+            </div>
+            <form onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">M-PESA PHONE NUMBER</label>
+                    <input type="tel" required placeholder="e.g. 0712345678" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">PASSWORD</label>
+                    <input type="password" required placeholder="••••••••" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl transition shadow-lg shadow-emerald-500/20">
+                    Log In to Dashboard
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: SUBMIT SCREENSHOT PROOF MODAL -->
+    <div id="submitProofModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 relative shadow-2xl">
+            <button onclick="closeModal('submitProofModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="space-y-1">
+                <h3 class="text-2xl font-extrabold text-white">Submit Status Proof</h3>
+                <p class="text-xs text-slate-400">Upload screenshot of your status views after 12-24 hours.</p>
+            </div>
+            <form onsubmit="handleProofSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">SELECT TASK</label>
+                    <select required class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                        <option value="Flyer1">CampusLink Promo Flyer #1 (WhatsApp)</option>
+                        <option value="LeaderboardStory">Top Comrades Story (Instagram)</option>
+                        <option value="TikTokVideo">TikTok Review Video</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">REPORTED VIEWS COUNT</label>
+                    <input type="number" required placeholder="e.g. 185" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">UPLOAD SCREENSHOT</label>
+                    <div class="border-2 border-dashed border-slate-700 hover:border-emerald-500 p-4 rounded-xl text-center cursor-pointer bg-slate-800/50">
+                        <i class="fa-solid fa-image text-3xl text-emerald-400 mb-2 block"></i>
+                        <span class="text-xs text-slate-300 font-medium block">Click to select screenshot image</span>
+                        <span class="text-[10px] text-slate-500">PNG, JPG up to 5MB</span>
+                        <input type="file" accept="image/*" class="hidden" id="screenshotFileInput" onchange="previewScreenshot(this)">
+                    </div>
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl transition shadow-lg shadow-emerald-500/20">
+                    Submit for Review
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 4: WITHDRAWAL MODAL -->
+    <div id="withdrawModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 relative shadow-2xl">
+            <button onclick="closeModal('withdrawModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="space-y-1">
+                <h3 class="text-2xl font-extrabold text-white">Withdraw Funds</h3>
+                <p class="text-xs text-slate-400">Transfer earnings directly to your M-Pesa line.</p>
+            </div>
+            <form onsubmit="handleWithdraw(event)" class="space-y-4">
+                <div class="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex justify-between items-center">
+                    <span class="text-xs text-slate-300 font-bold">Available Balance:</span>
+                    <span class="text-lg font-black text-emerald-400" id="withdrawModalBal">KSh 6,200</span>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">M-PESA NUMBER</label>
+                    <input type="tel" required value="0712345678" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">AMOUNT TO WITHDRAW (KSh)</label>
+                    <input type="number" required min="100" max="6200" placeholder="Minimum KSh 100" class="w-full bg-slate-800 border border-slate-700 text-white font-bold rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl transition shadow-lg shadow-emerald-500/20">
+                    Confirm M-Pesa Payout
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 5: PACKAGE PAYMENT MODAL -->
+    <div id="paymentModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 relative shadow-2xl">
+            <button onclick="closeModal('paymentModal')" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="space-y-1">
+                <h3 class="text-2xl font-extrabold text-white">M-Pesa Package Activation</h3>
+                <p class="text-xs text-slate-400">Activate your referral account instantly.</p>
+            </div>
+            <div class="p-4 bg-slate-800 rounded-2xl space-y-2 border border-slate-700">
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-400">Selected Package:</span>
+                    <span class="font-bold text-emerald-400" id="pkgModalName">Silver</span>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span class="text-slate-400">Activation Amount:</span>
+                    <span class="font-extrabold text-white text-base" id="pkgModalPrice">KSh 750</span>
+                </div>
+            </div>
+            <form onsubmit="handlePaymentSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">M-PESA PHONE NUMBER</label>
+                    <input type="tel" required placeholder="0712345678" class="w-full bg-slate-800 border border-slate-700 text-white rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+                <button type="submit" class="w-full py-3.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold rounded-xl transition shadow-lg shadow-emerald-500/20">
+                    Send M-Pesa STK Push Prompt
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION BAR -->
+    <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-t border-slate-800 px-4 py-2 flex justify-around items-center">
+        <button onclick="switchView('home')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-emerald-400 font-medium text-[11px] nav-btn active" id="nav-btn-home">
+            <i class="fa-solid fa-house text-lg"></i>
+            <span>Home</span>
+        </button>
+        <button onclick="switchView('dashboard')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-emerald-400 font-medium text-[11px] nav-btn" id="nav-btn-dashboard">
+            <i class="fa-solid fa-chart-pie text-lg"></i>
+            <span>Dashboard</span>
+        </button>
+        <button onclick="switchView('tasks')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-emerald-400 font-medium text-[11px] nav-btn" id="nav-btn-tasks">
+            <i class="fa-solid fa-list-check text-lg"></i>
+            <span>Earn Tasks</span>
+        </button>
+        <button onclick="switchView('leaderboard')" class="flex flex-col items-center gap-1 text-slate-400 hover:text-emerald-400 font-medium text-[11px] nav-btn" id="nav-btn-leaderboard">
+            <i class="fa-solid fa-trophy text-lg"></i>
+            <span>Rankings</span>
+        </button>
+    </nav>
+
+    <script src="app.js"></script>
+</body>
+</html>
